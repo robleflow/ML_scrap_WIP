@@ -21,6 +21,12 @@ def enviar_telegram(mensaje):
 
 def obtener_precio_unico():
     respuesta = requests.get(url_producto, headers=headers)
+    
+    # --- DEBUG: imprime el HTML recibido para ver si es la página esperada ---
+    print("=== HTML recibido ===")
+    print(respuesta.text[:1500])  # imprime los primeros 1500 caracteres del HTML
+    print("=====================")
+    
     sopa = BeautifulSoup(respuesta.text, "html.parser")
     contenedor = sopa.find("div", class_="ui-pdp-price__second-line")
     if contenedor:
@@ -37,6 +43,7 @@ def obtener_precio_unico():
                 return "$" + precio_texto
     print("No se encontró el precio principal.")
     return None
+
 
 def responder_precio_si_hay_mensaje():
     global ultimo_update_id
